@@ -7,12 +7,17 @@ $ vagrant up
 $ vagrant ssh
 
 ~$ cd /var/www/html/toy_api
+
+# test classes are in toy_api/tests/ProductsTest.php
 ~$ phpunit
 
-add entry to hosts file:
+
+# manual testing via Postman/Runscope/etc:
+
+# add entry to hosts file:
 192.168.33.22   toy_api.dev
 
-use Postman (or whichever client) to test routes:
+# test routes:
 GET http://toy_api.dev/api/v1/products
 GET http://toy_api.dev/api/v1/products/1
 POST http://toy_api.dev/api/v1/products {"name"=>"milk", "price"=>"3.99", "in_stock"=>1}
