@@ -5,7 +5,7 @@ PASSWORD='password'
 PROJECTFOLDER='toy_api'
 
 # create project folder
-sudo mkdir "/var/www/html/${PROJECTFOLDER}"
+#sudo mkdir "/var/www/html/${PROJECTFOLDER}"
 
 # update / upgrade
 sudo apt-get update
@@ -23,15 +23,6 @@ sudo debconf-set-selections <<< "mysql-server mysql-server/root_password passwor
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $PASSWORD"
 sudo apt-get -y install mysql-server
 sudo apt-get install php5-mysql
-
-# install phpmyadmin and give password(s) to installer
-# for simplicity I'm using the same password for mysql and phpmyadmin
-sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/dbconfig-install boolean true"
-sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/app-password-confirm password $PASSWORD"
-sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/admin-pass password $PASSWORD"
-sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/app-pass password $PASSWORD"
-sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2"
-sudo apt-get -y install phpmyadmin
 
 # setup hosts file
 VHOST=$(cat <<EOF
@@ -76,7 +67,8 @@ USE ${PROJECTFOLDER};
 GRANT select, insert, update, delete, lock tables, drop, create, create temporary tables, execute on ${PROJECTFOLDER}.* to '${PROJECTFOLDER}' identified by '${PASSWORD}';
 EOF
 )
-echo "${DB_CONFIG}" | mysql -u root -p$PASSWORD
+echo "${DB_CONF}" | mysql -uroot -p$PASSWORD
 
+cd /var/www/html/${PROJECTFOLDER}
 php artisan migrate
 php artisan db:seed
