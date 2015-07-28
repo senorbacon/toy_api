@@ -1,0 +1,21 @@
+$ git clone https://www.github.com/senorbacon/toy_api
+
+$ cd toy_api
+
+$ vagrant up
+
+$ vagrant ssh
+
+~$ cd /var/www/html/toy_api
+~$ phpunit
+
+add entry to hosts file:
+192.168.33.22   toy_api.dev
+
+use Postman (or whichever client) to test routes:
+GET http://toy_api.dev/api/v1/products
+GET http://toy_api.dev/api/v1/products/1
+POST http://toy_api.dev/api/v1/products {"name"=>"milk", "price"=>"3.99", "in_stock"=>1}
+PUT http://toy_api.dev/api/v1/products/1 {"price"=>"4.99", "in_stock"=>0}
+DELETE http://toy_api.dev/api/v1/products/1
+
